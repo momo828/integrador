@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>CRUD Personas</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <h1>CRUD de Personas</h1>
+
+  <section class="form-section">
+    <h2>Agregar / Editar Persona</h2>
+
+    <form id="personaForm">
+      <input type="hidden" id="id">
+
+      <label>Nombre</label>
+      <input type="text" id="nombre" required>
+
+      <label>Email</label>
+      <input type="email" id="email" required>
+
+      <label>Edad</label>
+      <input type="number" id="edad" required>
+
+      <button type="submit">Guardar</button>
+    </form>
+  </section>
+
+  <section class="table-section">
+    <h2>Lista de Personas</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Email</th>
+          <th>Edad</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody id="tablaPersonas"></tbody>
+    </table>
+  </section>
+
+  <script src="app.js"></script>
+</body>
+</html>
+

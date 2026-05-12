@@ -4,8 +4,14 @@ dotenv.config();
 import express from "express";
 import cors from "cors";
 import pkg from "pg";
+import path from "path";
+import { fileURLToPath } from "url";
 
 const { Pool } = pkg;
+
+// Necesario para obtener __dirname en ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -19,8 +25,11 @@ const pool = new Pool({
 app.use(cors());
 app.use(express.json());
 
+// ⭐ Servir frontend desde la carpeta "frontend"
+app.use(express.static(path.join(__dirname, "frontend")));
+
 // Ruta de prueba
-app.get("/", (req, res) => {
+app.get("/api", (req, res) => {
   res.send("API funcionando");
 });
 
@@ -100,6 +109,11 @@ app.delete("/personas/:id", async (req, res) => {
     console.error(error);
     res.status(500).json({ error: "Error al eliminar persona" });
   }
+});
+
+// ⭐ Ruta final: si no es API, enviar el frontend
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "frontend", "index.html"));
 });
 
 app.listen(port, () => {

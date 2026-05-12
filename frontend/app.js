@@ -1,4 +1,5 @@
-const API_URL = "http://localhost:3000/personas";
+const API_URL = "https://integrador-production.up.railway.app/personas";
+
 
 // Cargar personas al iniciar
 document.addEventListener("DOMContentLoaded", cargarPersonas);

@@ -61,11 +61,12 @@ app.get("/personas/:id", async (req, res) => {
 
 // Crear persona
 app.post("/personas", async (req, res) => {
-  const { nombre, email, edad } = req.body;
+  const { nombre, email, edad, foto_url, video_url, ubicacion_url, documento_url, instagram, linkedin } = req.body;
   try {
     const result = await pool.query(
-      "INSERT INTO personas (nombre, email, edad) VALUES ($1, $2, $3) RETURNING *",
-      [nombre, email, edad]
+      `INSERT INTO personas (nombre, email, edad, foto_url, video_url, ubicacion_url, documento_url, instagram, linkedin)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`,
+      [nombre, email, edad, foto_url, video_url, ubicacion_url, documento_url, instagram, linkedin]
     );
     res.status(201).json(result.rows[0]);
   } catch (error) {
@@ -77,11 +78,13 @@ app.post("/personas", async (req, res) => {
 // Actualizar persona
 app.put("/personas/:id", async (req, res) => {
   const { id } = req.params;
-  const { nombre, email, edad } = req.body;
+  const { nombre, email, edad, foto_url, video_url, ubicacion_url, documento_url, instagram, linkedin } = req.body;
   try {
     const result = await pool.query(
-      "UPDATE personas SET nombre = $1, email = $2, edad = $3 WHERE id = $4 RETURNING *",
-      [nombre, email, edad, id]
+      `UPDATE personas
+       SET nombre = $1, email = $2, edad = $3, foto_url = $4, video_url = $5, ubicacion_url = $6, documento_url = $7, instagram = $8, linkedin = $9
+       WHERE id = $10 RETURNING *`,
+      [nombre, email, edad, foto_url, video_url, ubicacion_url, documento_url, instagram, linkedin, id]
     );
     if (result.rows.length === 0) {
       return res.status(404).json({ error: "Persona no encontrada" });
@@ -92,6 +95,7 @@ app.put("/personas/:id", async (req, res) => {
     res.status(500).json({ error: "Error al actualizar persona" });
   }
 });
+
 
 // Eliminar persona
 app.delete("/personas/:id", async (req, res) => {

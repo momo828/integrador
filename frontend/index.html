@@ -2,49 +2,130 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Cynthia </title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro Multimedia</title>
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
 </head>
-<body>
+<body class="bg-light">
 
-  <h1>3.3. Aplicación web con base de datos</h1>
+<div class="container mt-4">
 
-  <section class="form-section">
-    <h2>Agregar / Editar Persona</h2>
+  <h2 class="text-center mb-4">Registro Multimedia de Personas</h2>
 
-    <form id="personaForm">
-      <input type="hidden" id="id">
+  <!-- SECCIÓN 1: DATOS PERSONALES -->
+  <div class="card mb-4">
+    <div class="card-header bg-primary text-white">
+      Datos Personales
+    </div>
+    <div class="card-body">
+      <div class="row g-3">
 
-      <label>Nombre</label>
-      <input type="text" id="nombre" required>
+        <div class="col-md-6">
+          <label class="form-label">Nombre</label>
+          <input type="text" id="nombre" class="form-control" required>
+        </div>
 
-      <label>Email</label>
-      <input type="email" id="email" required>
+        <div class="col-md-6">
+          <label class="form-label">Email</label>
+          <input type="email" id="email" class="form-control" required>
+        </div>
 
-      <label>Edad</label>
-      <input type="number" id="edad" required>
+        <div class="col-md-4">
+          <label class="form-label">Edad</label>
+          <input type="number" id="edad" class="form-control" required>
+        </div>
 
-      <button type="submit">Guardar</button>
-    </form>
-  </section>
+      </div>
+    </div>
+  </div>
 
-  <section class="table-section">
-    <h2>Lista de Personas</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Nombre</th>
-          <th>Email</th>
-          <th>Edad</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody id="tablaPersonas"></tbody>
-    </table>
-  </section>
+  <!-- SECCIÓN 2: MEDIOS DIGITALES -->
+  <div class="card mb-4">
+    <div class="card-header bg-success text-white">
+      Medios Digitales
+    </div>
+    <div class="card-body row g-3">
 
-  <script src="app.js"></script>
+      <div class="col-md-6">
+        <label class="form-label">URL de Foto</label>
+        <input type="text" id="foto_url" class="form-control">
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">Video (YouTube)</label>
+        <input type="text" id="video_url" class="form-control">
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">Ubicación (Google Maps)</label>
+        <input type="text" id="ubicacion_url" class="form-control">
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">Documento (PDF en Drive)</label>
+        <input type="text" id="documento_url" class="form-control">
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SECCIÓN 3: REDES SOCIALES -->
+  <div class="card mb-4">
+    <div class="card-header bg-dark text-white">
+      Redes Sociales
+    </div>
+    <div class="card-body row g-3">
+
+      <div class="col-md-6">
+        <label class="form-label">Instagram</label>
+        <input type="text" id="instagram" class="form-control">
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">LinkedIn</label>
+        <input type="text" id="linkedin" class="form-control">
+      </div>
+
+    </div>
+  </div>
+
+  <!-- BOTÓN DE ENVÍO -->
+  <div class="text-center">
+    <button id="btnGuardar" class="btn btn-primary px-5 py-2">Guardar Registro</button>
+  </div>
+
+</div>
+
+<!-- SCRIPT PARA ENVIAR DATOS AL BACKEND -->
+<script>
+document.getElementById("btnGuardar").addEventListener("click", async () => {
+
+  const data = {
+    nombre: nombre.value,
+    email: email.value,
+    edad: edad.value,
+    foto_url: foto_url.value,
+    video_url: video_url.value,
+    ubicacion_url: ubicacion_url.value,
+    documento_url: documento_url.value,
+    instagram: instagram.value,
+    linkedin: linkedin.value
+  };
+
+  const response = await fetch("/personas", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  });
+
+  const result = await response.json();
+  alert("Registro guardado correctamente");
+});
+</script>
+
 </body>
 </html>
 

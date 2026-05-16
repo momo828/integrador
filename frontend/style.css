@@ -1,52 +1,35 @@
 body {
+  background-color: #f5f5f5;
   font-family: Arial, sans-serif;
-  margin: 40px;
-  background: #f5f5f5;
-  
 }
 
-h1 {
-  text-align: center;
+/* Tarjetas */
+.card {
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
-form {
-  display: flex;
-  flex-direction: column;
-  width: 300px;
-  gap: 10px;
-  margin-bottom: 20px;
+/* Encabezados de tarjetas */
+.card-header {
+  font-size: 1.2rem;
+  font-weight: bold;
 }
 
-button {
-  padding: 10px;
-  background: #007bff;
-  color: white;
-  border: none;
-  cursor: pointer;
+/* Botón principal */
+.btn-primary {
+  font-size: 1.1rem;
+  padding: 10px 30px;
+  border-radius: 8px;
 }
 
-button:hover {
-  background: #0056b3;
+/* Inputs */
+.form-control {
+  border-radius: 8px;
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-  background: white;
-}
-
-table, th, td {
-  border: 1px solid #ccc;
-}
-
-th, td {
-  padding: 10px;
-  text-align: center;
-}
-
-.actions button {
-  margin: 0 5px;
-  padding: 5px 10px;
+/* Títulos */
+h2 {
+  font-weight: bold;
+  color: #333;
 }
 

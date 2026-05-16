@@ -37,7 +37,8 @@
 
 <script>
 async function cargarPersonas() {
-  const res = await fetch("/personas");
+  const res = await fetch("https://integrador-production.up.railway.app/personas");
+
   const personas = await res.json();
 
   const contenedor = document.getElementById("contenedor");

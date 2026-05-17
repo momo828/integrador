@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tarjetas Multimedia</title>
+  <title>Redes Sociales</title>
 
   <!-- Bootstrap -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
@@ -13,9 +13,6 @@
       background-color: #f5f5f5;
     }
     .card {
-      border-radius: 10px;
-    }
-    iframe {
       border-radius: 10px;
     }
   </style>
@@ -40,7 +37,7 @@
         </li>
 
         <li class="nav-item">
-          <a class="nav-link active" href="personas.html">Tarjetas multimedia</a>
+          <a class="nav-link" href="personas.html">Tarjetas multimedia</a>
         </li>
 
         <li class="nav-item">
@@ -48,7 +45,7 @@
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="redes.html">Solo redes sociales</a>
+          <a class="nav-link active" href="redes.html">Solo redes sociales</a>
         </li>
 
       </ul>
@@ -56,15 +53,15 @@
   </div>
 </nav>
 
-<!-- ⭐ CONTENEDOR DE TARJETAS -->
+<!-- ⭐ CONTENEDOR DE REDES -->
 <div class="container mt-4">
-  <h2 class="text-center mb-4">Personas Registradas</h2>
+  <h2 class="text-center mb-4">Redes Sociales</h2>
   <div id="contenedor" class="row g-4"></div>
 </div>
 
-<!-- ⭐ SCRIPT PARA CARGAR TARJETAS -->
+<!-- ⭐ SCRIPT PARA CARGAR REDES -->
 <script>
-async function cargarPersonas() {
+async function cargarRedes() {
   const res = await fetch("/personas");
   const personas = await res.json();
 
@@ -72,37 +69,17 @@ async function cargarPersonas() {
   contenedor.innerHTML = "";
 
   personas.forEach(p => {
+    // Solo mostrar si tiene al menos una red social
+    if (!p.instagram && !p.linkedin) return;
+
     contenedor.innerHTML += `
       <div class="col-md-4">
         <div class="card shadow p-3">
 
-          <h4>${p.nombre}</h4>
+          <h5>${p.nombre}</h5>
           <p><strong>Email:</strong> ${p.email}</p>
-          <p><strong>Edad:</strong> ${p.edad}</p>
 
-          <!-- FOTO -->
-          ${p.foto_url ? `<img src="${p.foto_url}" class="img-fluid rounded mb-3">` : ""}
-
-          <!-- VIDEO -->
-          ${p.video_url ? `
-            <div class="ratio ratio-16x9 mb-3">
-              <iframe src="${p.video_url.replace("watch?v=", "embed/")}" allowfullscreen></iframe>
-            </div>` : ""}
-
-          <!-- MAPA -->
-          ${p.ubicacion_url ? `
-            <div class="ratio ratio-16x9 mb-3">
-              <iframe src="${p.ubicacion_url}" allowfullscreen></iframe>
-            </div>` : ""}
-
-          <!-- DOCUMENTO -->
-          ${p.documento_url ? `
-            <a href="${p.documento_url}" target="_blank" class="btn btn-outline-primary w-100 mb-2">
-              Ver documento PDF
-            </a>` : ""}
-
-          <!-- REDES SOCIALES -->
-          <div class="d-flex gap-2">
+          <div class="d-flex gap-2 mt-2">
             ${p.instagram ? `<a href="${p.instagram}" target="_blank" class="btn btn-danger btn-sm">Instagram</a>` : ""}
             ${p.linkedin ? `<a href="${p.linkedin}" target="_blank" class="btn btn-primary btn-sm">LinkedIn</a>` : ""}
           </div>
@@ -113,7 +90,7 @@ async function cargarPersonas() {
   });
 }
 
-cargarPersonas();
+cargarRedes();
 </script>
 
 <!-- Bootstrap JS -->

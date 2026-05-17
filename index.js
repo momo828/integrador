@@ -2,7 +2,6 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import pkg from "pg";
-import multer from "multer";
 import path from "path";
 
 dotenv.config();
@@ -11,46 +10,32 @@ const { Pool } = pkg;
 const app = express();
 const port = process.env.PORT || 3000;
 
-// ⭐ Conexión a PostgreSQL
+// Conexión a PostgreSQL
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: { rejectUnauthorized: false }
 });
 
-// ⭐ Middleware
+// Middleware
 app.use(cors());
 app.use(express.json());
 
-// ⭐ Carpeta pública para imágenes subidas
-app.use("/uploads", express.static("uploads"));
-
-// ⭐ Configuración de multer para subir imágenes
-const storage = multer.diskStorage({
-  destination: "uploads/",
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + "-" + file.originalname);
-  }
-});
-
-const upload = multer({ storage });
-
-// ⭐ Servir frontend
+// Servir frontend
 app.use(express.static("frontend"));
 
-// ⭐ Ruta principal
+// Ruta principal
 app.get("/", (req, res) => {
   res.sendFile(path.resolve("frontend/home.html"));
 });
 
-// ⭐ Crear persona (con imagen)
-app.post("/personas", upload.single("foto"), async (req, res) => {
+// Crear persona (sin archivos)
+app.post("/personas", async (req, res) => {
   try {
-    const foto = req.file ? "/uploads/" + req.file.filename : null;
-
     const {
       nombre,
       email,
       edad,
+      foto_url,
       video_url,
       ubicacion_url,
       documento_url,
@@ -69,7 +54,7 @@ app.post("/personas", upload.single("foto"), async (req, res) => {
       nombre,
       email,
       edad,
-      foto,
+      foto_url,
       video_url,
       ubicacion_url,
       documento_url,
@@ -90,7 +75,7 @@ app.post("/personas", upload.single("foto"), async (req, res) => {
   }
 });
 
-// ⭐ Obtener todas las personas
+// Obtener personas
 app.get("/personas", async (req, res) => {
   try {
     const result = await pool.query("SELECT * FROM personas ORDER BY id DESC");
@@ -101,57 +86,7 @@ app.get("/personas", async (req, res) => {
   }
 });
 
-// ⭐ Actualizar persona (opcional si lo necesitas)
-app.put("/personas/:id", upload.single("foto"), async (req, res) => {
-  try {
-    const id = req.params.id;
-    const foto = req.file ? "/uploads/" + req.file.filename : req.body.foto_url;
-
-    const {
-      nombre,
-      email,
-      edad,
-      video_url,
-      ubicacion_url,
-      documento_url,
-      instagram,
-      linkedin
-    } = req.body;
-
-    const query = `
-      UPDATE personas SET
-      nombre=$1, email=$2, edad=$3, foto_url=$4, video_url=$5,
-      ubicacion_url=$6, documento_url=$7, instagram=$8, linkedin=$9
-      WHERE id=$10 RETURNING *;
-    `;
-
-    const values = [
-      nombre,
-      email,
-      edad,
-      foto,
-      video_url,
-      ubicacion_url,
-      documento_url,
-      instagram,
-      linkedin,
-      id
-    ];
-
-    const result = await pool.query(query, values);
-
-    res.json({
-      mensaje: "Persona actualizada correctamente",
-      persona: result.rows[0]
-    });
-
-  } catch (error) {
-    console.error("Error al actualizar persona:", error);
-    res.status(500).json({ error: "Error al actualizar persona" });
-  }
-});
-
-// ⭐ Eliminar persona
+// Eliminar persona
 app.delete("/personas/:id", async (req, res) => {
   try {
     const id = req.params.id;
@@ -163,7 +98,7 @@ app.delete("/personas/:id", async (req, res) => {
   }
 });
 
-// ⭐ Iniciar servidor
+// Iniciar servidor
 app.listen(port, () => {
   console.log(`Servidor escuchando en http://localhost:${port}`);
 });

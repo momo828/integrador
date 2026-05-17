@@ -3,101 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tarjetas Multimedia</title>
+  <title>Personas Registradas</title>
 
-  <!-- Bootstrap -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
   <style>
-    body {
-      background-color: #F5F6FA;
-    }
+    body { background-color: #F5F6FA; }
 
-    .navbar {
-      background-color: #0A3D62 !important;
-    }
+    .navbar { background-color: #0A3D62 !important; }
 
-    /* Tarjeta estilo Instagram */
-    .insta-card {
-      background: white;
-      border-radius: 18px;
-      overflow: hidden;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.12);
-      transition: transform .2s;
-    }
-
-    .insta-card:hover {
-      transform: translateY(-6px);
-    }
-
-    /* Encabezado tipo Instagram */
-    .insta-header {
-      display: flex;
-      align-items: center;
-      padding: 12px 16px;
-      gap: 12px;
-    }
-
-    .insta-profile {
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid #0A3D62;
-    }
-
-    .insta-name {
-      font-weight: bold;
-      color: #0A3D62;
-      margin: 0;
-    }
-
-    /* Imagen principal */
-    .insta-photo {
-      width: 100%;
-      height: 320px;
-      object-fit: cover;
-    }
-
-    /* Contenido */
-    .insta-body {
-      padding: 15px;
-    }
-
-    .insta-body p {
-      margin: 0;
-      color: #333;
-    }
-
-    iframe {
+    .card {
       border-radius: 12px;
-      margin-top: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      overflow: hidden;
     }
 
-    .btn-instagram {
-      background-color: #E1306C;
-      color: white;
+    .card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+    }
+
+    .btn-danger {
+      background-color: #c0392b;
       border: none;
     }
 
-    .btn-linkedin {
-      background-color: #0077B5;
-      color: white;
-      border: none;
+    .btn-danger:hover {
+      background-color: #e74c3c;
     }
-
-    .btn-instagram:hover { background-color: #c72a60; }
-    .btn-linkedin:hover { background-color: #005f8c; }
-
   </style>
 </head>
 
 <body>
 
-<!-- ⭐ MENÚ DE NAVEGACIÓN -->
+<!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg navbar-dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="home.html">Mi CRUD</a>
+    <a class="navbar-brand" href="home.html">Mi Proyecto</a>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
       <span class="navbar-toggler-icon"></span>
@@ -105,90 +48,87 @@
 
     <div class="collapse navbar-collapse" id="menu">
       <ul class="navbar-nav ms-auto">
-
         <li class="nav-item"><a class="nav-link" href="home.html">Inicio</a></li>
         <li class="nav-item"><a class="nav-link" href="index.html">Registrar persona</a></li>
         <li class="nav-item"><a class="nav-link active" href="personas.html">Tarjetas multimedia</a></li>
         <li class="nav-item"><a class="nav-link" href="documentos.html">Solo documentos</a></li>
         <li class="nav-item"><a class="nav-link" href="redes.html">Solo redes sociales</a></li>
         <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
-
       </ul>
     </div>
   </div>
 </nav>
 
-<!-- ⭐ CONTENEDOR DE TARJETAS -->
+<!-- CONTENIDO -->
 <div class="container mt-4">
-  <h2 class="text-center mb-4" style="color:#0A3D62; font-weight:bold;">Personas Registradas</h2>
-  <div id="contenedor" class="row g-4"></div>
+  <h2 class="text-center mb-4">Personas Registradas</h2>
+
+  <div class="row" id="personasContainer"></div>
 </div>
 
-<!-- ⭐ SCRIPT PARA CARGAR TARJETAS -->
 <script>
 async function cargarPersonas() {
   const res = await fetch("/personas");
   const personas = await res.json();
 
-  const contenedor = document.getElementById("contenedor");
-  contenedor.innerHTML = "";
+  const container = document.getElementById("personasContainer");
+  container.innerHTML = "";
 
   personas.forEach(p => {
-    contenedor.innerHTML += `
-      <div class="col-md-4">
-        <div class="insta-card">
+    const card = document.createElement("div");
+    card.className = "col-md-4 mb-4";
 
-          <!-- Encabezado estilo Instagram -->
-          <div class="insta-header">
-            <img src="${p.foto_url || 'https://via.placeholder.com/150'}" class="insta-profile">
-            <p class="insta-name">${p.nombre}</p>
+    card.innerHTML = `
+      <div class="card">
+        <img src="${p.foto_url}" alt="Foto">
+
+        <div class="card-body">
+          <h5 class="card-title">${p.nombre}</h5>
+          <p class="card-text"><strong>Email:</strong> ${p.email}</p>
+          <p class="card-text"><strong>Edad:</strong> ${p.edad}</p>
+
+          <a href="${p.video_url}" target="_blank" class="btn btn-primary btn-sm mb-1">Ver video</a>
+          <a href="${p.ubicacion_url}" target="_blank" class="btn btn-success btn-sm mb-1">Ver ubicación</a>
+          <a href="${p.documento_url}" target="_blank" class="btn btn-secondary btn-sm mb-1">Ver documento</a>
+
+          <div class="mt-2">
+            <a href="${p.instagram}" target="_blank" class="btn btn-warning btn-sm">Instagram</a>
+            <a href="${p.linkedin}" target="_blank" class="btn btn-info btn-sm">LinkedIn</a>
           </div>
 
-          <!-- Foto principal -->
-          ${p.foto_url ? `<img src="${p.foto_url}" class="insta-photo">` : ""}
-
-          <!-- Contenido -->
-          <div class="insta-body">
-            <p><strong>Email:</strong> ${p.email}</p>
-            <p><strong>Edad:</strong> ${p.edad}</p>
-
-            <!-- Video -->
-            ${p.video_url ? `
-              <div class="ratio ratio-16x9 mt-3">
-                <iframe src="${p.video_url.replace("watch?v=", "embed/")}" allowfullscreen></iframe>
-              </div>` : ""}
-
-            <!-- Mapa -->
-            ${p.ubicacion_url ? `
-              <div class="ratio ratio-16x9 mt-3">
-                <iframe src="${p.ubicacion_url}" allowfullscreen></iframe>
-              </div>` : ""}
-
-            <!-- Documento -->
-            ${p.documento_url ? `
-              <a href="${p.documento_url}" target="_blank" class="btn btn-outline-primary w-100 mt-3">
-                Ver documento PDF
-              </a>` : ""}
-
-            <!-- Redes -->
-            <div class="d-flex gap-2 mt-3">
-              ${p.instagram ? `<a href="${p.instagram}" target="_blank" class="btn btn-instagram btn-sm">Instagram</a>` : ""}
-              ${p.linkedin ? `<a href="${p.linkedin}" target="_blank" class="btn btn-linkedin btn-sm">LinkedIn</a>` : ""}
-            </div>
-
-          </div>
-
+          <button class="btn btn-danger btn-sm mt-3" onclick="eliminarPersona(${p.id})">Eliminar</button>
         </div>
       </div>
     `;
+
+    container.appendChild(card);
   });
+}
+
+async function eliminarPersona(id) {
+  if (!confirm("¿Eliminar esta persona?")) return;
+
+  const res = await fetch(`/personas/${id}`, { method: "DELETE" });
+
+  if (res.ok) {
+    alert("Persona eliminada");
+    cargarPersonas();
+  } else {
+    alert("Error al eliminar");
+  }
 }
 
 cargarPersonas();
 </script>
 
-<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<footer class="mt-5 py-3 text-center" style="background-color:#0A3D62; color:white;">
+  <div class="container">
+    <p class="mb-0">© 2026 Conceptualización de servicios en la nube — Sistema Multimedia</p>
+    <small>Desarrollado por Cynthia</small>
+  </div>
+</footer>
 
 </body>
 </html>

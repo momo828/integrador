@@ -17,14 +17,78 @@
       background-color: #0A3D62 !important;
     }
 
-    .card {
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    /* Tarjeta estilo Instagram */
+    .insta-card {
+      background: white;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+      transition: transform .2s;
+    }
+
+    .insta-card:hover {
+      transform: translateY(-6px);
+    }
+
+    /* Encabezado tipo Instagram */
+    .insta-header {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      gap: 12px;
+    }
+
+    .insta-profile {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #0A3D62;
+    }
+
+    .insta-name {
+      font-weight: bold;
+      color: #0A3D62;
+      margin: 0;
+    }
+
+    /* Imagen principal */
+    .insta-photo {
+      width: 100%;
+      height: 320px;
+      object-fit: cover;
+    }
+
+    /* Contenido */
+    .insta-body {
+      padding: 15px;
+    }
+
+    .insta-body p {
+      margin: 0;
+      color: #333;
     }
 
     iframe {
-      border-radius: 10px;
+      border-radius: 12px;
+      margin-top: 10px;
     }
+
+    .btn-instagram {
+      background-color: #E1306C;
+      color: white;
+      border: none;
+    }
+
+    .btn-linkedin {
+      background-color: #0077B5;
+      color: white;
+      border: none;
+    }
+
+    .btn-instagram:hover { background-color: #c72a60; }
+    .btn-linkedin:hover { background-color: #005f8c; }
+
   </style>
 </head>
 
@@ -43,15 +107,10 @@
       <ul class="navbar-nav ms-auto">
 
         <li class="nav-item"><a class="nav-link" href="home.html">Inicio</a></li>
-
         <li class="nav-item"><a class="nav-link" href="index.html">Registrar persona</a></li>
-
         <li class="nav-item"><a class="nav-link active" href="personas.html">Tarjetas multimedia</a></li>
-
         <li class="nav-item"><a class="nav-link" href="documentos.html">Solo documentos</a></li>
-
         <li class="nav-item"><a class="nav-link" href="redes.html">Solo redes sociales</a></li>
-
         <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
 
       </ul>
@@ -61,7 +120,7 @@
 
 <!-- ⭐ CONTENEDOR DE TARJETAS -->
 <div class="container mt-4">
-  <h2 class="text-center mb-4">Personas Registradas</h2>
+  <h2 class="text-center mb-4" style="color:#0A3D62; font-weight:bold;">Personas Registradas</h2>
   <div id="contenedor" class="row g-4"></div>
 </div>
 
@@ -77,37 +136,46 @@ async function cargarPersonas() {
   personas.forEach(p => {
     contenedor.innerHTML += `
       <div class="col-md-4">
-        <div class="card p-3">
+        <div class="insta-card">
 
-          <h4>${p.nombre}</h4>
-          <p><strong>Email:</strong> ${p.email}</p>
-          <p><strong>Edad:</strong> ${p.edad}</p>
+          <!-- Encabezado estilo Instagram -->
+          <div class="insta-header">
+            <img src="${p.foto_url || 'https://via.placeholder.com/150'}" class="insta-profile">
+            <p class="insta-name">${p.nombre}</p>
+          </div>
 
-          <!-- FOTO -->
-          ${p.foto_url ? `<img src="${p.foto_url}" class="img-fluid rounded mb-3">` : ""}
+          <!-- Foto principal -->
+          ${p.foto_url ? `<img src="${p.foto_url}" class="insta-photo">` : ""}
 
-          <!-- VIDEO -->
-          ${p.video_url ? `
-            <div class="ratio ratio-16x9 mb-3">
-              <iframe src="${p.video_url.replace("watch?v=", "embed/")}" allowfullscreen></iframe>
-            </div>` : ""}
+          <!-- Contenido -->
+          <div class="insta-body">
+            <p><strong>Email:</strong> ${p.email}</p>
+            <p><strong>Edad:</strong> ${p.edad}</p>
 
-          <!-- MAPA -->
-          ${p.ubicacion_url ? `
-            <div class="ratio ratio-16x9 mb-3">
-              <iframe src="${p.ubicacion_url}" allowfullscreen></iframe>
-            </div>` : ""}
+            <!-- Video -->
+            ${p.video_url ? `
+              <div class="ratio ratio-16x9 mt-3">
+                <iframe src="${p.video_url.replace("watch?v=", "embed/")}" allowfullscreen></iframe>
+              </div>` : ""}
 
-          <!-- DOCUMENTO -->
-          ${p.documento_url ? `
-            <a href="${p.documento_url}" target="_blank" class="btn btn-outline-primary w-100 mb-2">
-              Ver documento PDF
-            </a>` : ""}
+            <!-- Mapa -->
+            ${p.ubicacion_url ? `
+              <div class="ratio ratio-16x9 mt-3">
+                <iframe src="${p.ubicacion_url}" allowfullscreen></iframe>
+              </div>` : ""}
 
-          <!-- REDES SOCIALES -->
-          <div class="d-flex gap-2">
-            ${p.instagram ? `<a href="${p.instagram}" target="_blank" class="btn btn-danger btn-sm">Instagram</a>` : ""}
-            ${p.linkedin ? `<a href="${p.linkedin}" target="_blank" class="btn btn-primary btn-sm">LinkedIn</a>` : ""}
+            <!-- Documento -->
+            ${p.documento_url ? `
+              <a href="${p.documento_url}" target="_blank" class="btn btn-outline-primary w-100 mt-3">
+                Ver documento PDF
+              </a>` : ""}
+
+            <!-- Redes -->
+            <div class="d-flex gap-2 mt-3">
+              ${p.instagram ? `<a href="${p.instagram}" target="_blank" class="btn btn-instagram btn-sm">Instagram</a>` : ""}
+              ${p.linkedin ? `<a href="${p.linkedin}" target="_blank" class="btn btn-linkedin btn-sm">LinkedIn</a>` : ""}
+            </div>
+
           </div>
 
         </div>
@@ -121,13 +189,6 @@ cargarPersonas();
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<!-- ⭐ FOOTER PROFESIONAL -->
-<footer class="mt-5 py-3 text-center" style="background-color:#0A3D62; color:white;">
-  <div class="container">
-    <p class="mb-0">© 2026 Conceptualización de servicios en la nube— Sistema Multimedia</p>
-    <small>Desarrollado por Cynthia</small>
-  </div>
-</footer>
 
 </body>
 </html>

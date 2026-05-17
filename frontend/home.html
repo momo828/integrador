@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inicio - Sistema Multimedia</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+  <style>
+    body {
+      background: linear-gradient(135deg, #0A3D62, #3C6382);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .card-menu {
+      background: white;
+      color: #0A3D62;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      transition: transform .2s;
+    }
+
+    .card-menu:hover {
+      transform: scale(1.05);
+    }
+
+    .icono {
+      font-size: 3rem;
+      margin-bottom: 10px;
+      color: #0A3D62;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1 class="mb-4">Sistema Multimedia</h1>
+  <p class="mb-5">Gestiona personas, documentos, redes sociales y estadísticas</p>
+
+  <div class="row g-4 justify-content-center">
+
+    <div class="col-md-3">
+      <a href="index.html" class="text-decoration-none">
+        <div class="card-menu">
+          <div class="icono">📝</div>
+          <h4>Registrar Persona</h4>
+        </div>
+      </a>
+    </div>
+
+    <div class="col-md-3">
+      <a href="personas.html" class="text-decoration-none">
+        <div class="card-menu">
+          <div class="icono">🖼️</div>
+          <h4>Tarjetas Multimedia</h4>
+        </div>
+      </a>
+    </div>
+
+    <div class="col-md-3">
+      <a href="documentos.html" class="text-decoration-none">
+        <div class="card-menu">
+          <div class="icono">📄</div>
+          <h4>Documentos PDF</h4>
+        </div>
+      </a>
+    </div>
+
+    <div class="col-md-3">
+      <a href="redes.html" class="text-decoration-none">
+        <div class="card-menu">
+          <div class="icono">🌐</div>
+          <h4>Redes Sociales</h4>
+        </div>
+      </a>
+    </div>
+
+    <div class="col-md-3">
+      <a href="dashboard.html" class="text-decoration-none">
+        <div class="card-menu">
+          <div class="icono">📊</div>
+          <h4>Dashboard</h4>
+        </div>
+      </a>
+    </div>
+
+  </div>
+</div>
+<!-- ⭐ FOOTER PROFESIONAL -->
+<footer class="mt-5 py-3 text-center" style="background-color:#0A3D62; color:white;">
+  <div class="container">
+    <img src="logo.png" alt="Logo" style="height:50px; margin-bottom:10px;">
+    <p class="mb-0">© 2026 Embrazor Tool Manager — Sistema Multimedia</p>
+    <small>Desarrollado por Cynthia</small>
+  </div>
+</footer>
+
+</body>
+</html>

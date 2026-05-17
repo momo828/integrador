@@ -10,26 +10,39 @@
 
   <style>
     body {
-      background-color: #f5f5f5;
+      background-color: #F5F6FA;
     }
+
+    .navbar {
+      background-color: #0A3D62 !important;
+    }
+
     .card {
       border-radius: 12px;
+      padding: 25px;
       text-align: center;
-      padding: 20px;
+      color: white;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
+
     .numero {
-      font-size: 2.5rem;
+      font-size: 2.8rem;
       font-weight: bold;
     }
+
+    .bg-total { background-color: #3C6382; }
+    .bg-video { background-color: #E55039; }
+    .bg-docs  { background-color: #78E08F; color: #0A3D62; }
+    .bg-redes { background-color: #F8C291; color: #0A3D62; }
   </style>
 </head>
 
 <body>
 
 <!-- ⭐ MENÚ DE NAVEGACIÓN -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="index.html">Mi CRUD</a>
+    <a class="navbar-brand" href="home.html">Mi CRUD</a>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
       <span class="navbar-toggler-icon"></span>
@@ -38,10 +51,16 @@
     <div class="collapse navbar-collapse" id="menu">
       <ul class="navbar-nav ms-auto">
 
+        <li class="nav-item"><a class="nav-link" href="home.html">Inicio</a></li>
+
         <li class="nav-item"><a class="nav-link" href="index.html">Registrar persona</a></li>
+
         <li class="nav-item"><a class="nav-link" href="personas.html">Tarjetas multimedia</a></li>
+
         <li class="nav-item"><a class="nav-link" href="documentos.html">Solo documentos</a></li>
+
         <li class="nav-item"><a class="nav-link" href="redes.html">Solo redes sociales</a></li>
+
         <li class="nav-item"><a class="nav-link active" href="dashboard.html">Dashboard</a></li>
 
       </ul>
@@ -56,28 +75,28 @@
   <div class="row g-4">
 
     <div class="col-md-3">
-      <div class="card shadow bg-primary text-white">
+      <div class="card bg-total">
         <h5>Total de Personas</h5>
         <div id="total" class="numero">0</div>
       </div>
     </div>
 
     <div class="col-md-3">
-      <div class="card shadow bg-danger text-white">
+      <div class="card bg-video">
         <h5>Con Video</h5>
         <div id="videos" class="numero">0</div>
       </div>
     </div>
 
     <div class="col-md-3">
-      <div class="card shadow bg-success text-white">
+      <div class="card bg-docs">
         <h5>Con Documento</h5>
         <div id="documentos" class="numero">0</div>
       </div>
     </div>
 
     <div class="col-md-3">
-      <div class="card shadow bg-warning text-dark">
+      <div class="card bg-redes">
         <h5>Con Redes Sociales</h5>
         <div id="redes" class="numero">0</div>
       </div>
@@ -92,18 +111,14 @@ async function cargarDashboard() {
   const res = await fetch("/personas");
   const personas = await res.json();
 
-  // Total
   document.getElementById("total").textContent = personas.length;
 
-  // Con video
   const conVideo = personas.filter(p => p.video_url && p.video_url.trim() !== "").length;
   document.getElementById("videos").textContent = conVideo;
 
-  // Con documento
   const conDocumento = personas.filter(p => p.documento_url && p.documento_url.trim() !== "").length;
   document.getElementById("documentos").textContent = conDocumento;
 
-  // Con redes sociales
   const conRedes = personas.filter(p => (p.instagram || p.linkedin)).length;
   document.getElementById("redes").textContent = conRedes;
 }
